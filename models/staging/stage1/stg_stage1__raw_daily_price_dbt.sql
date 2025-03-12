@@ -7,13 +7,16 @@ source as (
 ),
 
 renamed as (
-
+--Rename + types de data + INICAP pour les majuscules 
     select
         CAST(id AS STRING) AS id_station,
         CAST(Code_postal AS STRING) AS cp,
-        CAST(Adresse AS STRING) AS adresse,
-        CAST(Ville AS STRING) AS ville,
+        INITCAP(CAST(Adresse AS STRING)) AS adresse,
+        INITCAP(CAST(Ville AS STRING)) AS ville,
         geom,
+        ----J'extrait les longitudes et latitudes de geom
+        CAST(SPLIT(geom, ',')[SAFE_OFFSET(0)] AS FLOAT64) AS latitude,
+        CAST(SPLIT(geom, ',')[SAFE_OFFSET(1)] AS FLOAT64) AS longitude,
         CAST(Prix_Gazole_mis____jour_le AS DATE) AS gazole_maj,
         SAFE_CAST(Prix_Gazole AS FLOAT64) AS gazole_prix,
         CAST(Prix_SP95_mis____jour_le AS DATE) AS sp95_maj,
