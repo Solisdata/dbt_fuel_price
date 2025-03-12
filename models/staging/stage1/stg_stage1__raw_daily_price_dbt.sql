@@ -11,8 +11,8 @@ renamed as (
     select
         CAST(id AS STRING) AS id_station,
         CAST(Code_postal AS STRING) AS cp,
-        INITCAP(CAST(Adresse AS STRING)) AS adresse,
-        INITCAP(CAST(Ville AS STRING)) AS ville,
+        -- je créé une adresse complete pour la carte
+        CONCAT(INITCAP(CAST(Adresse AS STRING)), ' ', CAST(Code_postal AS STRING), ' ', INITCAP(CAST(Ville AS STRING))) AS adresse_complete,
         geom,
         ----J'extrait les longitudes et latitudes de geom
         CAST(SPLIT(geom, ',')[SAFE_OFFSET(0)] AS FLOAT64) AS latitude,
