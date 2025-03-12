@@ -50,7 +50,7 @@ renamed as (
         CAST(code_region AS STRING) AS code_region
 
     from source
----test
+---test2
 )
 
 select * from renamed
