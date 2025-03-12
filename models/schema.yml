@@ -1,13 +1,8 @@
 version: 2
 
 sources:
-  - name: fuelpriceanalytics
+  - name: stage1
     description: "Source des données de prix de carburant et du pétrole"
     tables:
-      - name: carburants_vs_petrole
-        description: "Table comparant les prix des carburants avec ceux du pétrole"
-
-      - name: fuel_price_2024
-        description: "Table des prix des carburants pour l'année 2024"
-       
-        
+      - name: raw_daily_price_dbt
+        description: "prix du jours du pétrole par station"
