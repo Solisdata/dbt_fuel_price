@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: stage1
+    description: "Source des données de prix de carburant et du pétrole"
+    tables:
+      - name: raw_daily_price_dbt
+        description: "prix du jours du pétrole par station"
