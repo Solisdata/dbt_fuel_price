@@ -6,3 +6,9 @@ sources:
     tables:
       - name: raw_daily_price_dbt
         description: "prix du jours du pétrole par station"
+        columns:
+        - name: id
+          description: Primary Key
+          tests:
+            - unique
+            - not_null
