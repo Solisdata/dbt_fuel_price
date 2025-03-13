@@ -2,13 +2,21 @@ version: 2
 
 sources:
   - name: stage1
-    description: "Source des données de prix de carburant et du pétrole"
+    description: "Source des données de prix du jour des carburants par station. Info sur les ruptures."
     tables:
       - name: raw_daily_price_dbt
-        description: "prix du jours du pétrole par station"
+        description: "Prix du jour du pétrole par station."
         columns:
-        - name: id
-          description: Primary Key
-          tests:
-            - unique
-            - not_null
+          - name: id
+            description: "Primary Key."
+            tests:
+              - unique
+              - not_null
+      - name: stations
+        description: "Liste des stations par ID, avec les marques et la géolocalisation."
+        columns:
+          - name: id_station
+            description: "Primary Key."
+            tests:
+              - unique
+              - not_null
