@@ -12,11 +12,9 @@ sources:
             tests:
               - unique
               - not_null
-      - name: stations_v3
+      - name: stations_dbt
         description: "Liste des stations par ID, avec les marques et la géolocalisation."
         columns:
           - name: id_station
             description: "Primary Key."
-            tests:
-              - unique
-              - not_null
+

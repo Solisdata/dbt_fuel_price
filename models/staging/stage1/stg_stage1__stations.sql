@@ -2,7 +2,7 @@ with
 
 source as (
 
-    select * from {{ source('stage1', 'stations_v3') }}
+    select * from {{ source('stage1', 'stations_dbt') }}
 
 ),
 

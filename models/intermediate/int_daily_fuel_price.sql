@@ -1,4 +1,3 @@
-
 SELECT 
     id_station
     ,adresse_complete
@@ -8,7 +7,7 @@ SELECT
     ,departement
     ,code_departement
     ,region
-    ,geom
+    ,geom 
     ,gazole_prix
     ,sp95_prix
     ,e85_prix
@@ -47,6 +46,12 @@ SELECT
     END AS sp98_rupture_temporaire
 
     ,part_rupture_gazole
+    ,part_rupture_e10
+    ,part_rupture_sp98
+    ,part_rupture_sp95
+    ,part_rupture_e85
+    ,part_rupture_GPLc
+
 FROM {{ ref('stg_stage1__raw_daily_price_dbt') }} d
 LEFT JOIN {{ ref('stg_stage1__stations') }} s
     USING (id_station)

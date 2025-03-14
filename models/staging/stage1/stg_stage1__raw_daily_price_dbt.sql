@@ -18,7 +18,7 @@ renamed as (
         CASE WHEN R__gion = 'Île-de-France' THEN 'IDF' ELSE CAST(R__gion AS STRING) END AS region,
         CAST(code_departement AS STRING) AS code_departement,
         ----J'extrait les longitudes et latitudes de geom
-        geom,
+        CAST geom AS FLOAT64,
         CAST(SPLIT(geom, ',')[SAFE_OFFSET(0)] AS FLOAT64) AS latitude,
         CAST(SPLIT(geom, ',')[SAFE_OFFSET(1)] AS FLOAT64) AS longitude,
         -- info sur les prix
@@ -65,6 +65,31 @@ renamed as (
             ELSE CAST(Type_rupture_gazole AS STRING) 
         END AS gazole_rupture_type,
         -- on met en format binaire les éléments temporaire = 1 , autres = 2
+        CASE 
+            WHEN Type_rupture_e10 = 'temporaire' THEN 1
+            ELSE 0
+        END AS part_rupture_e10,
+    
+        CASE 
+            WHEN Type_rupture_sp98 = 'temporaire' THEN 1
+            ELSE 0
+        END AS part_rupture_sp98,
+    
+        CASE 
+            WHEN Type_rupture_sp95 = 'temporaire' THEN 1
+            ELSE 0
+        END AS part_rupture_sp95,
+    
+        CASE 
+            WHEN Type_rupture_e85 = 'temporaire' THEN 1
+            ELSE 0
+        END AS part_rupture_e85,
+    
+        CASE 
+            WHEN Type_rupture_GPLc = 'temporaire' THEN 1
+            ELSE 0
+        END AS part_rupture_GPLc,
+    
         CASE 
             WHEN Type_rupture_gazole = 'temporaire' THEN 1
             ELSE 0
