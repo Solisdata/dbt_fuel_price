@@ -41,3 +41,5 @@ models:
     staging :
       stage1 :
         +materialized: table
+    intermediate:
+      +materialized: table

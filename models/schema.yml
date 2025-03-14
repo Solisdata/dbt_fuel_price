@@ -12,7 +12,7 @@ sources:
             tests:
               - unique
               - not_null
-      - name: stations
+      - name: stations_v3
         description: "Liste des stations par ID, avec les marques et la géolocalisation."
         columns:
           - name: id_station

@@ -2,16 +2,16 @@ with
 
 source as (
 
-    select * from {{ source('stage1', 'stations') }}
+    select * from {{ source('stage1', 'stations_v3') }}
 
 ),
 
 renamed as (
 
     select
-        id_station,
+        CAST(id_station AS STRING) AS id_station,
         nom_station,
-        marque,
+        CAST(marque AS STRING) AS marque,
         adresse,
         code_postal,
         commune,
