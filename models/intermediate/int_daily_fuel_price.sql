@@ -45,6 +45,8 @@ SELECT
         WHEN sp98_rupture_type = 'definitive' THEN NULL 
         ELSE sp98_rupture_type
     END AS sp98_rupture_temporaire
+
+    ,part_rupture_gazole
 FROM {{ ref('stg_stage1__raw_daily_price_dbt') }} d
 LEFT JOIN {{ ref('stg_stage1__stations') }} s
     USING (id_station)

@@ -42,4 +42,4 @@ models:
       stage1 :
         +materialized: table
     intermediate:
-      +materialized: table
+        +materialized: table

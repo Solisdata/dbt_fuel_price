@@ -63,8 +63,12 @@ renamed as (
         CASE 
             WHEN Type_rupture_gazole = 'temporaire' THEN 'rupture temporaire' 
             ELSE CAST(Type_rupture_gazole AS STRING) 
-        END AS gazole_rupture_type
-        
+        END AS gazole_rupture_type,
+        -- on met en format binaire les éléments temporaire = 1 , autres = 2
+        CASE 
+            WHEN Type_rupture_gazole = 'temporaire' THEN 1
+            ELSE 0
+        END AS part_rupture_gazole
     
     from source
 )
