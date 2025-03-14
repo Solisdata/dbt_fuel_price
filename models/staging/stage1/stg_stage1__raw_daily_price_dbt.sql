@@ -18,7 +18,7 @@ renamed as (
         CASE WHEN R__gion = 'Île-de-France' THEN 'IDF' ELSE CAST(R__gion AS STRING) END AS region,
         CAST(code_departement AS STRING) AS code_departement,
         ----J'extrait les longitudes et latitudes de geom
-        CAST geom AS FLOAT64,
+        geom,
         CAST(SPLIT(geom, ',')[SAFE_OFFSET(0)] AS FLOAT64) AS latitude,
         CAST(SPLIT(geom, ',')[SAFE_OFFSET(1)] AS FLOAT64) AS longitude,
         -- info sur les prix
@@ -96,6 +96,17 @@ renamed as (
         END AS part_rupture_gazole
     
     from source
+        -- on exclus les stations dont les prix n'ont pas été mis à jours depuis plus d'un mois
+    WHERE 
+        COALESCE(
+            CAST(Prix_Gazole_mis____jour_le AS TIMESTAMP), 
+            CAST(Prix_SP95_mis____jour_le AS TIMESTAMP), 
+            CAST(Prix_E85_mis____jour_le AS TIMESTAMP), 
+            CAST(Prix_GPLc_mis____jour_le AS TIMESTAMP), 
+            CAST(Prix_E10_mis____jour_le AS TIMESTAMP), 
+            CAST(Prix_SP98_mis____jour_le AS TIMESTAMP)
+        ) >= TIMESTAMP(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH))
 )
+
 
 select * from renamed
