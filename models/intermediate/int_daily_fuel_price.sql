@@ -7,7 +7,9 @@ SELECT
     ,departement
     ,code_departement
     ,region
-    ,geom 
+    ,commune
+    ,geom
+    ,type_route
     ,gazole_prix
     ,sp95_prix
     ,e85_prix
@@ -51,6 +53,13 @@ SELECT
     ,part_rupture_sp95
     ,part_rupture_e85
     ,part_rupture_GPLc
+
+    , gazole_maj
+    , sp95_maj
+    , e85_maj
+    , gplc_maj
+    , e10_maj
+    , sp98_maj
 
 FROM {{ ref('stg_stage1__raw_daily_price_dbt') }} d
 LEFT JOIN {{ ref('stg_stage1__stations') }} s

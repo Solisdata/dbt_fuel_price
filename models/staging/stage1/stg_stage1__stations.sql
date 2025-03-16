@@ -25,7 +25,13 @@ renamed as (
         e10,
         e85,
         nb_carbu,
-        type_route
+        -- je renomme les routes et autoroutes
+        CASE
+            WHEN type_route = 'R' THEN 'Route'
+            WHEN type_route = 'A' THEN 'Autoroute'
+            ELSE CAST(type_route AS STRING)
+        END AS type_routes
+
 
     from source
 
