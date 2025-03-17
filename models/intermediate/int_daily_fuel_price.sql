@@ -1,5 +1,6 @@
-SELECT 
-    id_station
+SELECT
+    CURRENT_DATE() AS date_date
+    ,id_station
     ,adresse_complete
     ,marque
     ,nom_station
