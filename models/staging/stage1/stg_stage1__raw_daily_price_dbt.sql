@@ -1,55 +1,118 @@
-with 
+with
 
-source as (
+    source as (select * from {{ source("stage1", "raw_daily_price_dbt") }}),
 
-    select * from {{ source('stage1', 'raw_daily_price_dbt') }}
+    renamed as (
+        -- Rename + types de data + INICAP pour les majuscules 
+        select
+            cast(id as string) as id_station,
+            -- je créé une adresse complete pour la carte
+            concat(
+                initcap(cast(adresse as string)),
+                ', ',
+                cast(code_postal as string),
+                ' ',
+                initcap(cast(ville as string))
+            ) as adresse_complete,
+            cast(code_postal as string) as cp,
+            cast(d__partement as string) as departement,
+            -- je corrige le nom ile de france
+            case
+                when r__gion = 'Île-de-France' then 'IDF' else cast(r__gion as string)
+            end as region,
+            cast(code_departement as string) as code_departement,
+            -- --J'extrait les longitudes et latitudes de geom
+            geom,
+            cast(split(geom, ',')[safe_offset(0)] as float64) as latitude,
+            cast(split(geom, ',')[safe_offset(1)] as float64) as longitude,
+            -- info sur les prix
+            safe_cast(prix_gazole as float64) as gazole_prix,
+            safe_cast(prix_sp95 as float64) as sp95_prix,
+            safe_cast(prix_e85 as float64) as e85_prix,
+            safe_cast(prix_gplc as float64) as gplc_prix,
+            safe_cast(prix_e10 as float64) as e10_prix,
+            safe_cast(prix_sp98 as float64) as sp98_prix,
+            cast(prix_gazole_mis____jour_le as date) as gazole_maj,
+            cast(prix_sp95_mis____jour_le as date) as sp95_maj,
+            cast(prix_e85_mis____jour_le as date) as e85_maj,
+            cast(prix_gplc_mis____jour_le as date) as gplc_maj,
+            cast(prix_e10_mis____jour_le as date) as e10_maj,
+            cast(prix_sp98_mis____jour_le as date) as sp98_maj,
+            -- info sur les ruptures
+            case
+                when type_rupture_e10 = 'temporaire'
+                then 'rupture temporaire'
+                else cast(type_rupture_e10 as string)
+            end as e10_rupture_type,
 
-),
+            case
+                when type_rupture_sp98 = 'temporaire'
+                then 'rupture temporaire'
+                else cast(type_rupture_sp98 as string)
+            end as sp98_rupture_type,
 
-renamed as (
---Rename + types de data + INICAP pour les majuscules 
-    select
-        CAST(id AS STRING) AS id_station,
-        CAST(Code_postal AS STRING) AS cp,
-        INITCAP(CAST(Adresse AS STRING)) AS adresse,
-        INITCAP(CAST(Ville AS STRING)) AS ville,
-        geom,
-        ----J'extrait les longitudes et latitudes de geom
-        CAST(SPLIT(geom, ',')[SAFE_OFFSET(0)] AS FLOAT64) AS latitude,
-        CAST(SPLIT(geom, ',')[SAFE_OFFSET(1)] AS FLOAT64) AS longitude,
-        CAST(Prix_Gazole_mis____jour_le AS DATE) AS gazole_maj,
-        SAFE_CAST(Prix_Gazole AS FLOAT64) AS gazole_prix,
-        CAST(Prix_SP95_mis____jour_le AS DATE) AS sp95_maj,
-        SAFE_CAST(Prix_SP95 AS FLOAT64) AS sp95_prix,
-        CAST(Prix_E85_mis____jour_le AS DATE) AS e85_maj,
-        SAFE_CAST(Prix_E85 AS FLOAT64) AS e85_prix,
-        CAST(Prix_GPLc_mis____jour_le AS DATE) AS gplc_maj,
-        SAFE_CAST(Prix_GPLc AS FLOAT64) AS gplc_prix,
-        CAST(Prix_E10_mis____jour_le AS DATE) AS e10_prix,
-        CAST(Prix_SP98_mis____jour_le AS DATE) AS sp98_maj,
-        SAFE_CAST(Prix_SP98 AS FLOAT64) AS sp98_prix,
-        CAST(D__but_rupture_e10__si_temporaire_ AS DATE) AS e10_rupture_debut,
-        CAST(D__but_rupture_sp98__si_temporaire_ AS DATE) AS sp98_rupture_debut,
-        CAST(D__but_rupture_sp95__si_temporaire_ AS DATE) AS sp95_rupture_debut,
-        CAST(D__but_rupture_e85__si_temporaire_ AS DATE) AS e85_rupture_debut,
-        CAST(D__but_rupture_GPLc__si_temporaire_ AS DATE) AS gplc_rupture_debut,
-        CAST(D__but_rupture_gazole__si_temporaire_ AS DATE) AS gazole_rupture_debut,
-        CAST(Type_rupture_e10 AS STRING) AS e10_rupture_type,
-        CAST(Type_rupture_sp98 AS STRING) AS sp98_rupture_type,
-        CAST(Type_rupture_sp95 AS STRING) AS sp95_rupture_type,
-        CAST(Type_rupture_e85 AS STRING) AS e85_rupture_type,
-        CAST(Type_rupture_GPLc AS STRING) AS gplc_rupture_type,
-        CAST(Type_rupture_gazole AS STRING) AS gazole_rupture_type,
-        SAFE_CAST(Carburants_disponibles AS INT64) AS carburants_disponibles,
-        SAFE_CAST(Carburants_indisponibles AS INT64) AS carburants_indisponibles,
-        SAFE_CAST(Carburants_en_rupture_temporaire AS INT64) AS carburants_rupture_temporaire,
-        SAFE_CAST(Carburants_en_rupture_definitive AS INT64) AS carburants_rupture_definitive,
-        CAST(D__partement AS STRING) AS departement,
-        CAST(code_departement AS STRING) AS code_departement,
-        CAST(R__gion AS STRING) AS region,
-        CAST(code_region AS STRING) AS code_region
+            case
+                when type_rupture_sp95 = 'temporaire'
+                then 'rupture temporaire'
+                else cast(type_rupture_sp95 as string)
+            end as sp95_rupture_type,
 
-    from source
-)
+            case
+                when type_rupture_e85 = 'temporaire'
+                then 'rupture temporaire'
+                else cast(type_rupture_e85 as string)
+            end as e85_rupture_type,
 
-select * from renamed
+            case
+                when type_rupture_gplc = 'temporaire'
+                then 'rupture temporaire'
+                else cast(type_rupture_gplc as string)
+            end as gplc_rupture_type,
+
+            case
+                when type_rupture_gazole = 'temporaire'
+                then 'rupture temporaire'
+                else cast(type_rupture_gazole as string)
+            end as gazole_rupture_type,
+            -- on met en format binaire les éléments temporaire = 1 , autres = 2
+            case
+                when type_rupture_e10 = 'temporaire' then 1 else 0
+            end as part_rupture_e10,
+
+            case
+                when type_rupture_sp98 = 'temporaire' then 1 else 0
+            end as part_rupture_sp98,
+
+            case
+                when type_rupture_sp95 = 'temporaire' then 1 else 0
+            end as part_rupture_sp95,
+
+            case
+                when type_rupture_e85 = 'temporaire' then 1 else 0
+            end as part_rupture_e85,
+
+            case
+                when type_rupture_gplc = 'temporaire' then 1 else 0
+            end as part_rupture_gplc,
+
+            case
+                when type_rupture_gazole = 'temporaire' then 1 else 0
+            end as part_rupture_gazole
+
+        from source
+        -- on exclus les stations dont les prix n'ont pas été mis à jours depuis plus
+        -- d'un mois
+        where
+            coalesce(
+                prix_gazole_mis____jour_le,
+                prix_sp95_mis____jour_le,
+                prix_e85_mis____jour_le,
+                prix_gplc_mis____jour_le,
+                prix_e10_mis____jour_le,
+                prix_sp98_mis____jour_le
+            )
+            >= "2025-02-01"
+    )
+
+select *
+from renamed
