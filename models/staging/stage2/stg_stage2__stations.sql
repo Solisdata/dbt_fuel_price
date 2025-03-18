@@ -1,6 +1,6 @@
 with
 
-    source as (select * from {{ source("stage1", "stations_dbt_vf") }}),
+    source as (select * from {{ source("stage2", "stations_2024") }}),
 
     renamed as (
 
@@ -8,20 +8,12 @@ with
             cast(id_station as string) as id_station,
             nom_station,
             cast(marque as string) as marque,
-            "principales marques" as principales_marques,
             adresse,
             code_postal,
             commune,
             geo_point,
             latitude,
             longitude,
-            gazole,
-            sp95,
-            sp98,
-            gpl,
-            e10,
-            e85,
-            nb_carbu,
             -- je renomme les routes et autoroutes
             case
                 when type_route = 'R'

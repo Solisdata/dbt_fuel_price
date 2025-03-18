@@ -146,5 +146,5 @@ SELECT
         END AS sp98_prix_interval
 
 FROM {{ ref('stg_stage1__raw_daily_price_dbt') }} d
-LEFT JOIN {{ ref('stg_stage1__stations') }} s
+LEFT JOIN {{ ref('stg_stage2__stations') }} s
     USING (id_station)

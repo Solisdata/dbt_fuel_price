@@ -12,9 +12,12 @@ sources:
             tests:
               - unique
               - not_null
-      - name: stations_dbt_vf
+
+  - name: stage2
+    description: "Source des données nettoyé sur python"
+    tables:
+      - name: stations_2024
         description: "Liste des stations par ID, avec les marques et la géolocalisation."
         columns:
           - name: id_station
             description: "Primary Key."
-
