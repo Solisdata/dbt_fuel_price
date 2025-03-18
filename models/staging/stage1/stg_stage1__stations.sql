@@ -8,6 +8,7 @@ with
             cast(id_station as string) as id_station,
             nom_station,
             cast(marque as string) as marque,
+            "principales marques" as principales_marques,
             adresse,
             code_postal,
             commune,
