@@ -4,6 +4,7 @@
         fuel_type,
         adresse_complete,
         marque,
+        principales_marques,
         nom_station,
         cp,
         departement,

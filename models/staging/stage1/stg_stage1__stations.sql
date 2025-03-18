@@ -1,6 +1,6 @@
 with
 
-    source as (select * from {{ source("stage1", "stations_dbt") }}),
+    source as (select * from {{ source("stage1", "stations_dbt_vf") }}),
 
     renamed as (
 
