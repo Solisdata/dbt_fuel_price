@@ -39,9 +39,9 @@ models:
     # Applies to all files under models/example/
     staging :
       stage1 :
-        +materialized: table
+        +materialized: view
       stage2 :
-        +materialized: table
+        +materialized: view
     intermediate:
         +materialized: table
     mart : 
