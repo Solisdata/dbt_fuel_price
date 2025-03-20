@@ -58,7 +58,7 @@ SELECT
     ,part_rupture_sp98
     ,part_rupture_sp95
     ,part_rupture_e85
-    ,part_rupture_GPLc
+    ,part_rupture_glpc
 
     , gazole_maj
     , sp95_maj
