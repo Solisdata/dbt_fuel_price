@@ -15,7 +15,7 @@
         latitude,
         longitude,
         type_route,
-        distance_km,  -- calcul de la distance de la station avec le WAGON (47.1894533,-1.535468)
+        distance_km,  -- calcul de la distance de la station avec le WAGON (47.210985300204,-1.550071345527)
         gazole_rupture_temporaire,
         sp95_rupture_temporaire,
         e85_rupture_temporaire,
@@ -27,7 +27,7 @@
         part_rupture_sp98,
         part_rupture_sp95,
         part_rupture_e85,
-        part_rupture_GPLc
+        part_rupture_glpc
     FROM {{ ref('int_daily_fuel_price') }} e
     UNPIVOT(
         prix FOR fuel_type IN (

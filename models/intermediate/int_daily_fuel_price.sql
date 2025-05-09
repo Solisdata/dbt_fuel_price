@@ -20,8 +20,8 @@ SELECT
     ,gplc_prix
     ,e10_prix
     ,sp98_prix
-    -- calcul de la distance de la station  avec le WAGON (47.1894533,-1.535468)
-    ,ST_DISTANCE(ST_GEOGPOINT(-1.535468,47.1894533),ST_GEOGPOINT(CAST(s.longitude AS float64),CAST(s.latitude AS float64)))/1000 AS distance_km
+    -- calcul de la distance de la station  avec le WAGON (47.210985300204,-1.550071345527)
+    ,ST_DISTANCE(ST_GEOGPOINT(-1.550071345527,47.210985300204),ST_GEOGPOINT(CAST(s.longitude AS float64),CAST(s.latitude AS float64)))/1000 AS distance_km
     -- je conserve que les ruptures temporaires
     ,CASE 
         WHEN gazole_rupture_type = 'definitive' THEN NULL 
@@ -58,7 +58,7 @@ SELECT
     ,part_rupture_sp98
     ,part_rupture_sp95
     ,part_rupture_e85
-    ,part_rupture_GPLc
+    ,part_rupture_glpc
 
     , gazole_maj
     , sp95_maj

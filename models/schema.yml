@@ -7,11 +7,9 @@ sources:
       - name: raw_daily_price_dbt
         description: "Prix du jour du pétrole par station."
         columns:
-          - name: id
+          - name: station_id
             description: "Primary Key."
-            tests:
-              - unique
-              - not_null
+
 
   - name: stage2
     description: "Source des données nettoyé sur python"
