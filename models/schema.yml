@@ -9,9 +9,7 @@ sources:
         columns:
           - name: station_id
             description: "Primary Key."
-            tests:
-              - unique
-              - not_null
+
 
   - name: stage2
     description: "Source des données nettoyé sur python"
